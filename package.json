@@ -1,0 +1,17 @@
+{
+  "name": "secure-legal-case-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Secure role-based legal case database for law students with blockchain-enabled data integrity",
+  "workspaces": ["blockchain", "backend", "frontend"],
+  "scripts": {
+    "chain": "npm run node -w blockchain",
+    "chain:deploy": "npm run deploy:local -w blockchain",
+    "dev:db": "npm run dev:db -w backend",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "seed": "npm run seed -w backend",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "test": "npm run test -w blockchain && npm run test -w backend && npm run test -w frontend"
+  }
+}

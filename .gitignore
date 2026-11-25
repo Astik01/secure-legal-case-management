@@ -1,0 +1,22 @@
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+# Private document storage and local DB data
+backend/storage/
+backend/.devdb/
+# Hardhat
+blockchain/artifacts/
+blockchain/cache/
+blockchain/typechain-types/
+blockchain/deployments/*.json
+!blockchain/deployments/.gitkeep
+# Keys
+*.pem
+*.key
