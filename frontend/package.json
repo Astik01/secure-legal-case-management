@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "screenshots": "node e2e/capture-screenshots.mjs"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.2",
@@ -21,6 +22,7 @@
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.7.0",
     "jsdom": "^29.1.1",
+    "playwright-core": "^1.65.1",
     "postcss": "^8.5.33",
     "tailwindcss": "^3.4.19",
     "typescript": "~5.7.3",

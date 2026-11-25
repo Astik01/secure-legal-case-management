@@ -16,7 +16,9 @@
     "dev:frontend": "npm run dev -w frontend",
     "seed": "npm run seed -w backend",
     "build": "npm run build -w backend && npm run build -w frontend",
-    "test": "npm run test -w blockchain && npm run test -w backend && npm run test -w frontend"
+    "test": "npm run test -w blockchain && npm run test -w backend && npm run test -w frontend",
+    "smoke": "node backend/scripts/smoke-test.mjs",
+    "screenshots": "npm run screenshots -w frontend"
   },
   "overrides": {
     "react": "18.3.1",
