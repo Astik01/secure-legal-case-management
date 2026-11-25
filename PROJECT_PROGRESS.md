@@ -20,3 +20,12 @@ Legend: [x] done, [~] in progress, [ ] pending
 
 ## Environment notes
 - MongoDB not installed locally; Docker daemon not running. Dev DB uses mongodb-memory-server with a persistent dbPath; tests use an in-memory instance.
+
+## Release verification (final)
+- [x] Full stack started from project scripts (MongoDB, Hardhat chain, contract deploy, seed, backend, frontend)
+- [x] Automated tests: 7 contract + 68 backend + 27 frontend = 102 passing
+- [x] Live smoke test (`npm run smoke`): 85/85 checks passing against the running application
+- [x] 18 real Playwright screenshots in `docs/screenshots/` (`npm run screenshots`)
+- [x] README redesigned; all image and document links verified to exist
+- Fixes found during release testing: dashboards crashed on partial case objects (fixed + regression tests + error boundary);
+  registration retry now re-registers records the chain no longer has (e.g. after a local chain reset)
