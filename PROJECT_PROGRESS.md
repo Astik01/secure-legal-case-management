@@ -16,7 +16,7 @@ Legend: [x] done, [~] in progress, [ ] pending
 - [x] Phase 12: Integration (live E2E script: 12 checks passed)
 - [x] Phase 13: Tests + security review (99 tests; audit findings documented)
 - [x] Phase 14: Docs
-- [ ] Phase 15: Push to GitHub
+- [x] Phase 15: Push to GitHub (incremental pushes after every batch)
 
 ## Environment notes
 - MongoDB not installed locally; Docker daemon not running. Dev DB uses mongodb-memory-server with a persistent dbPath; tests use an in-memory instance.
