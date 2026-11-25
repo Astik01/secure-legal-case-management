@@ -1,7 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppLayout } from './layouts/AppLayout';
 import { PublicLayout } from './layouts/PublicLayout';
+import CaseForm from './pages/faculty/CaseForm';
+import FacultyDashboard from './pages/faculty/FacultyDashboard';
+import Submissions from './pages/faculty/Submissions';
+import UploadDocuments from './pages/faculty/UploadDocuments';
 import NotFound from './pages/NotFound';
+import AuditLogs from './pages/shared/AuditLogs';
 import CaseDetails from './pages/shared/CaseDetails';
 import CaseExplorer from './pages/shared/CaseExplorer';
 import DocumentViewer from './pages/shared/DocumentViewer';
@@ -36,6 +41,18 @@ export default function App() {
           <Route path="verify" element={<VerificationHistory />} />
           <Route path="bookmarks" element={<Bookmarks />} />
           <Route path="profile" element={<Profile />} />
+
+          <Route element={<ProtectedRoute roles={['FACULTY']} />}>
+            <Route path="faculty" element={<FacultyDashboard />} />
+            <Route path="faculty/cases/new" element={<CaseForm />} />
+            <Route path="faculty/submissions" element={<Submissions />} />
+            <Route path="faculty/verifications" element={<VerificationHistory />} />
+            <Route path="faculty/audit-logs" element={<AuditLogs />} />
+          </Route>
+          <Route element={<ProtectedRoute roles={['FACULTY', 'ADMIN']} />}>
+            <Route path="faculty/cases/:id/edit" element={<CaseForm />} />
+            <Route path="faculty/cases/:id/documents" element={<UploadDocuments />} />
+          </Route>
 
           <Route element={<ProtectedRoute roles={['STUDENT']} />}>
             <Route path="student" element={<StudentDashboard />} />
