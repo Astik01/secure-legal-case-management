@@ -1,6 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppLayout } from './layouts/AppLayout';
 import { PublicLayout } from './layouts/PublicLayout';
+import Analytics from './pages/admin/Analytics';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import BlockchainRecords from './pages/admin/BlockchainRecords';
+import CaseApprovals from './pages/admin/CaseApprovals';
+import CaseManagement from './pages/admin/CaseManagement';
+import RoleManagement from './pages/admin/RoleManagement';
+import SystemSettings from './pages/admin/SystemSettings';
+import UserManagement from './pages/admin/UserManagement';
 import CaseForm from './pages/faculty/CaseForm';
 import FacultyDashboard from './pages/faculty/FacultyDashboard';
 import Submissions from './pages/faculty/Submissions';
@@ -48,6 +56,17 @@ export default function App() {
             <Route path="faculty/submissions" element={<Submissions />} />
             <Route path="faculty/verifications" element={<VerificationHistory />} />
             <Route path="faculty/audit-logs" element={<AuditLogs />} />
+          </Route>
+          <Route element={<ProtectedRoute roles={['ADMIN']} />}>
+            <Route path="admin" element={<AdminDashboard />} />
+            <Route path="admin/users" element={<UserManagement />} />
+            <Route path="admin/roles" element={<RoleManagement />} />
+            <Route path="admin/cases" element={<CaseManagement />} />
+            <Route path="admin/approvals" element={<CaseApprovals />} />
+            <Route path="admin/blockchain" element={<BlockchainRecords />} />
+            <Route path="admin/audit-logs" element={<AuditLogs />} />
+            <Route path="admin/analytics" element={<Analytics />} />
+            <Route path="admin/settings" element={<SystemSettings />} />
           </Route>
           <Route element={<ProtectedRoute roles={['FACULTY', 'ADMIN']} />}>
             <Route path="faculty/cases/:id/edit" element={<CaseForm />} />
