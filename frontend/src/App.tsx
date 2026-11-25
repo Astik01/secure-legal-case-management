@@ -4,7 +4,9 @@ import { PublicLayout } from './layouts/PublicLayout';
 import NotFound from './pages/NotFound';
 import CaseDetails from './pages/shared/CaseDetails';
 import CaseExplorer from './pages/shared/CaseExplorer';
+import DocumentViewer from './pages/shared/DocumentViewer';
 import Profile from './pages/shared/Profile';
+import VerificationHistory from './pages/shared/VerificationHistory';
 import Bookmarks from './pages/student/Bookmarks';
 import StudentDashboard from './pages/student/StudentDashboard';
 import About from './pages/public/About';
@@ -30,6 +32,8 @@ export default function App() {
           {/* Available to every signed-in role; the API still filters what each role may see. */}
           <Route path="cases" element={<CaseExplorer />} />
           <Route path="cases/:id" element={<CaseDetails />} />
+          <Route path="documents/:id" element={<DocumentViewer />} />
+          <Route path="verify" element={<VerificationHistory />} />
           <Route path="bookmarks" element={<Bookmarks />} />
           <Route path="profile" element={<Profile />} />
 
