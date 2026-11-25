@@ -7,7 +7,7 @@ Legend: [x] done, [~] in progress, [ ] pending
 - [x] Phase 7: LegalDocumentRegistry smart contract + Hardhat tests (7 passing)
 - [x] Phase 3: Database schemas + backend architecture (pushed 6e20d35)
 - [x] Phase 4: Auth + RBAC (22 backend tests passing)
-- [ ] Phase 5: Legal case management
+- [x] Phase 5: Legal case management (+bookmarks; 15 tests)
 - [ ] Phase 6: Document upload/management
 - [ ] Phase 8: Blockchain integration
 - [ ] Phase 9: Integrity verification
