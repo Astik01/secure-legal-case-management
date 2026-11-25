@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "Secure role-based legal case database for law students with blockchain-enabled data integrity",
-  "workspaces": ["blockchain", "backend", "frontend"],
+  "workspaces": [
+    "blockchain",
+    "backend",
+    "frontend"
+  ],
   "scripts": {
     "chain": "npm run node -w blockchain",
     "chain:deploy": "npm run deploy:local -w blockchain",
@@ -13,5 +17,9 @@
     "seed": "npm run seed -w backend",
     "build": "npm run build -w backend && npm run build -w frontend",
     "test": "npm run test -w blockchain && npm run test -w backend && npm run test -w frontend"
+  },
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }
