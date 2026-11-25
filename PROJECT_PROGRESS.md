@@ -8,7 +8,7 @@ Legend: [x] done, [~] in progress, [ ] pending
 - [x] Phase 3: Database schemas + backend architecture (pushed 6e20d35)
 - [x] Phase 4: Auth + RBAC (22 backend tests passing)
 - [x] Phase 5: Legal case management (+bookmarks; 15 tests)
-- [ ] Phase 6: Document upload/management
+- [x] Phase 6: Document upload/management (44 backend tests passing)
 - [ ] Phase 8: Blockchain integration
 - [ ] Phase 9: Integrity verification
 - [ ] Phase 10: Audit logs + analytics
