@@ -4,6 +4,8 @@ import { HDNodeWallet, JsonRpcProvider, Mnemonic, Network, Wallet, parseEther } 
 import { createApp } from '../src/app';
 import { env } from '../src/config/env';
 import { AuditLog } from '../src/models/AuditLog';
+import { ethers } from 'ethers';
+import { DocumentModel } from '../src/models/Document';
 import { BlockchainRecord } from '../src/models/BlockchainRecord';
 import { DocumentVersion } from '../src/models/DocumentVersion';
 import { BlockchainService, getBlockchain, setBlockchain, uploaderRefFor } from '../src/services/blockchain.service';
@@ -81,6 +83,26 @@ describe('Blockchain registration', () => {
     expect(again.body.data[0].txHash).toBe(before!.txHash);
     expect(await BlockchainRecord.countDocuments({ document: docId })).toBe(1);
     expect((await getBlockchain().readVersion(up.body.data.document.documentKey, 1)).versionCount).toBe(1);
+  });
+
+  it('re-registers when the database says CONFIRMED but the chain has no such record (e.g. chain reset)', async () => {
+    const { facultyToken, caseId } = await setup();
+    const pdf = await makePdf('chain-reset');
+    const up = await upload(facultyToken, caseId, pdf);
+    const docId = up.body.data.document._id;
+    const oldTx = up.body.data.blockchain.txHash;
+    // Simulate a wiped chain: point the document at an identifier the chain has never seen.
+    const fresh = ethers.id(`never-registered-${Date.now()}`);
+    await DocumentModel.updateOne({ _id: docId }, { documentKey: fresh });
+    await BlockchainRecord.updateOne({ document: docId }, { documentKey: fresh });
+    expect((await getBlockchain().readVersion(fresh, 1)).registered).toBe(false);
+
+    const res = await request(app).post('/api/blockchain/register').set(bearer(facultyToken)).send({ documentId: docId });
+    expect(res.body.data[0].status).toBe('CONFIRMED');
+    expect(res.body.data[0].txHash).not.toBe(oldTx);
+    const onChain = await getBlockchain().readVersion(fresh, 1);
+    expect(onChain.registered).toBe(true);
+    expect(onChain.record!.contentHash).toBe(`0x${sha256Hex(pdf)}`);
   });
 
   it('keeps the upload and marks registration FAILED when the chain is unreachable, then recovers on retry', async () => {

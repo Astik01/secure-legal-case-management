@@ -21,8 +21,8 @@ export function CaseCard({ c, showStatus = false }: { c: LegalCase; showStatus?:
       <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-500">
         <div className="flex items-center gap-1"><Landmark className="h-3.5 w-3.5" aria-hidden /><dt className="sr-only">Court</dt><dd>{c.court}</dd></div>
         <div className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" aria-hidden /><dt className="sr-only">Year</dt><dd>{c.year}</dd></div>
-        {c.tags.length > 0 && (
-          <div className="flex items-center gap-1"><Tag className="h-3.5 w-3.5" aria-hidden /><dt className="sr-only">Tags</dt><dd>{c.tags.slice(0, 3).join(', ')}</dd></div>
+        {(c.tags?.length ?? 0) > 0 && (
+          <div className="flex items-center gap-1"><Tag className="h-3.5 w-3.5" aria-hidden /><dt className="sr-only">Tags</dt><dd>{(c.tags ?? []).slice(0, 3).join(', ')}</dd></div>
         )}
       </dl>
     </article>

@@ -139,6 +139,16 @@ export class BlockchainService {
     };
   }
 
+  /** True only when the chain is reachable and definitely has no such version (RPC errors return false). */
+  private async isMissingOnChain(documentKey: string, version: number): Promise<boolean> {
+    try {
+      this.init();
+      return !(await this.readVersion(documentKey, version)).registered;
+    } catch {
+      return false;
+    }
+  }
+
   /** Registers a single stored version on-chain, tracking submission and confirmation separately. */
   private async registerOne(versionId: string, requestedBy?: string) {
     const dv = await DocumentVersion.findById(versionId);
@@ -279,8 +289,20 @@ export class BlockchainService {
         if (rec.status === 'CONFIRMED') newlyConfirmed.push(v.version);
       }
       if (rec?.status === 'CONFIRMED') {
-        records.push(rec);
-        continue;
+        // Trust the chain, not the database: if the registration is missing on-chain (e.g. a local
+        // development chain was reset), reopen the record so it is registered again.
+        if (await this.isMissingOnChain(rec.documentKey, v.version)) {
+          rec.status = 'PENDING';
+          rec.error = 'Registration not found on-chain; re-registering';
+          rec.txHash = undefined;
+          rec.blockNumber = undefined;
+          rec.chainTimestamp = undefined;
+          rec.confirmedAt = undefined;
+          await rec.save();
+        } else {
+          records.push(rec);
+          continue;
+        }
       }
       rec = await this.registerOne(v.id, requestedBy);
       records.push(rec);

@@ -60,7 +60,7 @@ export async function adminAnalytics(_req: Request, res: Response) {
 export async function dashboard(req: Request, res: Response) {
   const user = req.user!;
   const visible = visibilityFilter(user);
-  const recentCases = await LegalCase.find(visible).sort({ updatedAt: -1 }).limit(5).select('title caseNumber court year category status');
+  const recentCases = await LegalCase.find(visible).sort({ updatedAt: -1 }).limit(5).select('title caseNumber citation court year category status summary tags');
 
   if (user.role === 'STUDENT') {
     const [published, bookmarks, verifications] = await Promise.all([

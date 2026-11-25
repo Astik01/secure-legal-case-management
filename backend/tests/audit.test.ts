@@ -94,6 +94,8 @@ describe('Dashboards, analytics and settings', () => {
     const { studentToken, facultyToken, adminToken } = await scenario();
     const s = (await request(app).get('/api/dashboard').set(bearer(studentToken))).body.data;
     expect(s.stats).toMatchObject({ publishedCases: 1, bookmarks: 0, verifications: 0 });
+    // Dashboard cases must carry every field the UI card renders (a missing field once blanked the page).
+    expect(s.recentCases[0]).toMatchObject({ title: expect.any(String), summary: expect.any(String), tags: expect.any(Array) });
     const f = (await request(app).get('/api/dashboard').set(bearer(facultyToken))).body.data;
     expect(f.stats).toMatchObject({ myCases: 1, myDocuments: 1, chainConfirmed: 1, chainUnconfirmed: 0 });
     expect(f.casesByStatus.PUBLISHED).toBe(1);
