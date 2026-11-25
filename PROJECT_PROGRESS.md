@@ -12,10 +12,10 @@ Legend: [x] done, [~] in progress, [ ] pending
 - [x] Phase 8: Blockchain integration (52 backend tests passing incl. real Hardhat node)
 - [x] Phase 9: Integrity verification (9 tests; 61 backend total)
 - [x] Phase 10: Audit logs + analytics (67 backend tests passing, stable over 3 runs)
-- [ ] Phase 11: Frontend
-- [ ] Phase 12: Integration
-- [ ] Phase 13: Tests + security review
-- [ ] Phase 14: Docs
+- [x] Phase 11: Frontend (25 UI tests)
+- [x] Phase 12: Integration (live E2E script: 12 checks passed)
+- [x] Phase 13: Tests + security review (99 tests; audit findings documented)
+- [x] Phase 14: Docs
 - [ ] Phase 15: Push to GitHub
 
 ## Environment notes
