@@ -10,7 +10,7 @@ Legend: [x] done, [~] in progress, [ ] pending
 - [x] Phase 5: Legal case management (+bookmarks; 15 tests)
 - [x] Phase 6: Document upload/management (44 backend tests passing)
 - [x] Phase 8: Blockchain integration (52 backend tests passing incl. real Hardhat node)
-- [ ] Phase 9: Integrity verification
+- [x] Phase 9: Integrity verification (9 tests; 61 backend total)
 - [ ] Phase 10: Audit logs + analytics
 - [ ] Phase 11: Frontend
 - [ ] Phase 12: Integration
