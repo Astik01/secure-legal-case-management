@@ -62,6 +62,7 @@ export class BlockchainService {
     this.provider = new JsonRpcProvider(this.config.rpcUrl, this.chainId, {
       staticNetwork: Network.from(this.chainId),
       pollingInterval: 300,
+      cacheTimeout: -1, // never serve cached reads: integrity checks must see the live chain state
     });
     this.wallet = new Wallet(this.config.privateKey, this.provider);
     this.contract = new Contract(dep.address, dep.abi, this.wallet);
@@ -183,7 +184,7 @@ export class BlockchainService {
       record.contractAddress = this.address;
       await record.save();
 
-      const receipt = await withTimeout(this.provider!.waitForTransaction(tx.hash, 1, this.config.confirmTimeoutMs ?? 60000), (this.config.confirmTimeoutMs ?? 60000) + 2000, 'confirmation');
+      const receipt = await this.waitForReceipt(tx.hash, this.config.confirmTimeoutMs ?? 60000);
       if (!receipt) return record; // still pending; reconcile() will pick it up
       if (receipt.status !== 1) throw new Error('Transaction reverted');
       const block = await this.provider!.getBlock(receipt.blockNumber);
@@ -201,6 +202,20 @@ export class BlockchainService {
       await record.save();
       return record;
     }
+  }
+
+  /**
+   * Polls for the receipt directly. ethers' event-driven waitForTransaction can stall on automining
+   * chains when the block is produced between its receipt check and its block subscription.
+   */
+  private async waitForReceipt(txHash: string, timeoutMs: number) {
+    const deadline = Date.now() + timeoutMs;
+    while (Date.now() < deadline) {
+      const receipt = await withTimeout(this.provider!.getTransactionReceipt(txHash), 10000, 'receipt');
+      if (receipt) return receipt;
+      await new Promise((r) => setTimeout(r, 200));
+    }
+    return null;
   }
 
   private async confirmFromEvents(record: InstanceType<typeof BlockchainRecord>, documentKey: string, version: number) {
