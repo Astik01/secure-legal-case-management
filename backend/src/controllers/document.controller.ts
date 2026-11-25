@@ -7,6 +7,7 @@ import { getViewableDocument, getVersionOrThrow, storeNewVersion } from '../serv
 import { getStorage } from '../services/storage.service';
 import { AppError } from '../utils/AppError';
 import { created, ok } from '../utils/apiResponse';
+import { registerAndAudit } from './blockchain.controller';
 
 const versionView = (v: InstanceType<typeof DocumentVersion>) => ({
   _id: v.id,
@@ -39,7 +40,17 @@ export async function uploadDocument(req: Request, res: Response) {
     resourceType: 'document', resourceId: document.id,
     metadata: { caseId, version: version.version, sha256: version.sha256, size: version.size },
   });
-  return created(res, { document, version: versionView(version) }, 'Document uploaded');
+  // Register the hash on-chain. A blockchain failure never loses the upload: the record is marked
+  // FAILED/SUBMITTED and can be retried via POST /api/blockchain/register.
+  const records = await registerAndAudit(req, document.id, version.version);
+  const blockchain = records.find((r) => r.version === version.version)?.toJSON() ?? null;
+  return created(
+    res,
+    { document, version: versionView(version), blockchain },
+    blockchain?.status === 'CONFIRMED'
+      ? 'Document uploaded and registered on the blockchain'
+      : 'Document uploaded; blockchain registration is not confirmed yet',
+  );
 }
 
 export async function listDocuments(req: Request, res: Response) {

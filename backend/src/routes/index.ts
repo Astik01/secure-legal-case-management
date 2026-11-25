@@ -7,6 +7,7 @@ import { userRouter } from './user.routes';
 import { caseRouter } from './case.routes';
 import { bookmarkRouter } from './bookmark.routes';
 import { documentRouter } from './document.routes';
+import { blockchainRouter } from './blockchain.routes';
 
 export const apiRouter = Router();
 
@@ -15,6 +16,7 @@ apiRouter.use('/users', userRouter);
 apiRouter.use('/cases', caseRouter);
 apiRouter.use('/bookmarks', bookmarkRouter);
 apiRouter.use('/documents', documentRouter);
+apiRouter.use('/blockchain', blockchainRouter);
 
 apiRouter.get('/health', (_req, res) =>
   ok(res, {
