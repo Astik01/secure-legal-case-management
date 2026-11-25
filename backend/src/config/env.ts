@@ -2,9 +2,15 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { z } from 'zod';
 
-// Load repo-root .env first, then backend/.env (existing variables are never overridden).
-dotenv.config({ path: path.resolve(__dirname, '../../../.env'), quiet: true });
-dotenv.config({ path: path.resolve(__dirname, '../../.env'), quiet: true });
+// Load .env files without overriding variables that are already set. Works from src/ (tsx, ts-jest),
+// from the compiled dist/src/, and when started from either the repo root or backend/.
+const envFiles = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), '../.env'),
+  path.resolve(__dirname, '../../../.env'),
+  path.resolve(__dirname, '../../../../.env'),
+];
+for (const file of envFiles) dotenv.config({ path: file, quiet: true });
 
 const schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
