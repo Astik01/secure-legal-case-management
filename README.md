@@ -2,7 +2,7 @@
 
 # LexVault
 
-### Secure Role-Based Legal Case Database with Blockchain-Enabled Data Integrity
+### Secure Role-Based Legal Case Database with Blockchain-Enabled Data Integrity.
 
 A legal case research and management platform for law students, faculty and administrators.
 Judgment PDFs are fingerprinted with SHA-256 and registered on an Ethereum-compatible smart contract,
